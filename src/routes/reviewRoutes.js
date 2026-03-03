@@ -10,7 +10,7 @@ const {
 } = require("../controllers/reviewController");
 // Routes
 router.get("/latest", getLatestReviews);
- router.get("/my-reviews", authMiddleware, reviewController.getMyReviews);
+ router.get("/my-reviews", authMiddleware, getMyReviews);
  router.get("/:bookId", getReviewsByBook);
 router.post("/", authMiddleware, createReview);
 router.put("/:id", authMiddleware, updateReview);
