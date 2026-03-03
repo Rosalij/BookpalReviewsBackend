@@ -5,7 +5,8 @@ const {
   createReview,
   getReviewsByBook,
   updateReview,
-  deleteReview
+  deleteReview,
+  getLatestReviews
 } = require("../controllers/reviewController");
 // Routes
 router.get("/latest", getLatestReviews);
