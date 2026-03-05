@@ -22,7 +22,7 @@ exports.getSavedUsers = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).populate(
       "savedUsers",
-      "username email createdAt"
+      "username"
     );
 
     if (!user) {
