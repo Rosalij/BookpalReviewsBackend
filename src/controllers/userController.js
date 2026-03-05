@@ -113,17 +113,37 @@ exports.getUserProfile = async (req, res) => {
   }
 };
 
-
-// Get reviews by any user
+// get user reviews
 exports.getUserReviews = async (req, res) => {
   try {
     const userId = req.params.id;
-
     const reviews = await Review.find({ user: userId })
-      .sort({ createdAt: -1 }) // newest first
-      .populate("user", "username"); // include username of reviewer
+      .sort({ createdAt: -1 })
+      .populate("user", "username");
 
-    res.json(reviews);
+    // Fetch Google Books info for each review
+    const reviewsWithBook = await Promise.all(
+      reviews.map(async (r) => {
+        let bookInfo = {};
+        try {
+          const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${r.bookId}`);
+          if (response.ok) {
+            const data = await response.json();
+            bookInfo = {
+              title: data.volumeInfo.title,
+              authors: data.volumeInfo.authors,
+              link: data.volumeInfo.infoLink,
+              thumbnail: data.volumeInfo.imageLinks?.thumbnail,
+            };
+          }
+        } catch (err) {
+          console.error("Failed to fetch book info", err);
+        }
+        return { ...r.toObject(), bookInfo };
+      })
+    );
+
+    res.json(reviewsWithBook);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to fetch user reviews" });
