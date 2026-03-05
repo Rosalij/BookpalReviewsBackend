@@ -9,9 +9,9 @@ router.get("/me/saved", auth, userController.getSavedUsers);
 
 router.post("/:id/save", auth, userController.saveUser);
 router.delete("/:id/save", auth, userController.removeSavedUser);
-router.get("/:id/reviews", userController.getUserReviews);
-router.get("/:id", userController.getUserProfile);
 
+router.get("/:id", userController.getUserProfile);
+router.get("/:id/reviews", userController.getUserReviews);
 
 // existing routes...
 
