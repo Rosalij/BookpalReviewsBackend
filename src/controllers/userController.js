@@ -6,8 +6,9 @@ const User = require("../models/User");
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select("username");
-    res.json(users);
+  const users = await User.find().select("_id username");
+
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

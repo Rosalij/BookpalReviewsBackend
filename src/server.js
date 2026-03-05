@@ -20,7 +20,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/books", bookRoutes);
-app.use("api/users", userRoutes);
+app.use("/api/users", userRoutes);
 // Root route
 app.get("/", (req, res) => {
   res.send("Server is running!");
