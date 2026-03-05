@@ -3,13 +3,16 @@ const Review = require("../models/Review");
 // Create review
 exports.createReview = async (req, res) => {
   try {
-    const { bookId, reviewText, rating } = req.body;
-    const review = await Review.create({
-      bookId,
-      reviewText,
-      rating,
-      user: req.user.id,
-    });
+   const { bookId, bookTitle, reviewText, rating } = req.body;
+
+const review = await Review.create({
+  bookId,
+  bookTitle,
+  reviewText,
+  rating,
+  user: req.user.id,
+});
+
     res.status(201).json(review);
   } catch (error) {
     res.status(400).json({ message: "Failed to create review" });

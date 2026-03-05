@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
+
 // Review schema
 const reviewSchema = new mongoose.Schema({
   bookId: {
+    type: String,
+    required: true
+  },
+  bookTitle: {  
     type: String,
     required: true
   },
