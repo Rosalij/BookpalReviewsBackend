@@ -5,7 +5,7 @@ const User = require("../models/User");
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find()
-      .select("username createdAt") 
+      .select("username") 
       .sort({ username: 1 });
 
     res.status(200).json(users);
