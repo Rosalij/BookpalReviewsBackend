@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 // User schema
 const userSchema = new mongoose.Schema({
   username: {
@@ -18,7 +19,15 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     default: "user"
-  }
+  },
+
+  // NEW: saved users for quick access
+  savedUsers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ]
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);
