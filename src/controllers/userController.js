@@ -112,8 +112,6 @@ exports.getUserProfile = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-
-// get user reviews
 exports.getUserReviews = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -121,24 +119,34 @@ exports.getUserReviews = async (req, res) => {
       .sort({ createdAt: -1 })
       .populate("user", "username");
 
-    // Fetch Google Books info for each review
+ 
     const reviewsWithBook = await Promise.all(
       reviews.map(async (r) => {
-        let bookInfo = {};
+        let bookInfo = {
+          title: "Unknown Title",
+          authors: ["Unknown Author"],
+          link: "#",
+          thumbnail: "./placeholder.jpg",
+        };
+
         try {
-          const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${r.bookId}?key=${process.env.GOOGLE_BOOKS_KEY}`);
+          const response = await fetch(
+            `https://www.googleapis.com/books/v1/volumes/${r.bookId}?key=${process.env.GOOGLE_BOOKS_KEY}`
+          );
           if (response.ok) {
             const data = await response.json();
             bookInfo = {
-              title: data.volumeInfo.title,
-              authors: data.volumeInfo.authors,
-              link: data.volumeInfo.infoLink,
-              thumbnail: data.volumeInfo.imageLinks?.thumbnail,
+              title: data.volumeInfo?.title || "Unknown Title",
+              authors: data.volumeInfo?.authors || ["Unknown Author"],
+              link: data.volumeInfo?.infoLink || "#",
+              thumbnail:
+                data.volumeInfo?.imageLinks?.thumbnail || "./placeholder.jpg",
             };
           }
         } catch (err) {
-          console.error("Failed to fetch book info", err);
+          console.error(`Failed to fetch book info for ${r.bookId}`, err);
         }
+
         return { ...r.toObject(), bookInfo };
       })
     );
