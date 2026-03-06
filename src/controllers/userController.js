@@ -126,7 +126,7 @@ exports.getUserReviews = async (req, res) => {
       reviews.map(async (r) => {
         let bookInfo = {};
         try {
-          const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${r.bookId}`);
+          const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${r.bookId}?key=${process.env.GOOGLE_BOOKS_KEY}`);
           if (response.ok) {
             const data = await response.json();
             bookInfo = {
