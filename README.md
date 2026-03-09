@@ -124,13 +124,13 @@ POST /api/reviews
 Get reviews for a book
 
 ```
-GET /api/reviews/book/:bookId
+GET /api/reviews/:bookId
 ```
 
 Get reviews written by the logged-in user
 
 ```
-GET /api/reviews/me
+GET /api/reviews/my-reviews
 ```
 
 Update a review
@@ -158,7 +158,7 @@ GET /api/reviews/latest
 Search books
 
 ```
-GET /api/books/search?q=query
+GET /api/books/search
 ```
 
 Get book details
@@ -170,6 +170,6 @@ GET /api/books/:bookId
 Get average rating for a book
 
 ```
-GET /api/books/:bookId/rating
+GET /api/books/rating/:bookId
 ```
 
