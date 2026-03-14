@@ -6,21 +6,28 @@ const jwt = require("jsonwebtoken");
 exports.validate = async (req, res) => {
   try {
 
+    // Kontrollera att token finns
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    // Hämta användaren från databasen
     const user = await User.findById(req.user.id).select("-password");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Returnera användardata
     res.json({
       user
     });
 
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Validation failed" });
   }
 };
-
 
 // User registration
 exports.register = async (req, res) => {
